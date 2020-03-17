@@ -1,0 +1,58 @@
+{
+  "name": "simple-react-iso",
+  "version": "0.1.0",
+  "description": "Baseline React Isomorphic",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack -w & nodemon server.js",
+    "start-dev": "NODE_ENV=development webpack -w & NODE_ENV=development nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanshv/simple-react-iso.git"
+  },
+  "keywords": [
+    "React",
+    "Isomorphic"
+  ],
+  "author": "Stan!",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stanshv/simple-react-iso/issues"
+  },
+  "homepage": "https://github.com/stanshv/simple-react-iso#readme",
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
+    "serialize-javascript": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^2.0.2",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
