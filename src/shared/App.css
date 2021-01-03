@@ -1,0 +1,34 @@
+/* body {
+    background-color: #5ecf29;
+}
+
+.element {
+    background-color: #51b5dd;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+} */
+
+
+:root {
+    --bg-color: #ffffff;
+    --primary-color: #ff2600;
+    --secondary-color: #ff5537;
+    --selected-color: #ffffff;
+    --content-color: #ececec;
+    --font-color: #000000;
+}
+
+[data-theme="dark"] {
+    /* --bg-color: #272b42; */
+    --bg-color: #393939;
+    --primary-color: #ff5a09;
+    --secondary-color: #f17426;
+    --selected-color: #393939;
+    --content-color: #e8e8de;
+    --font-color: #e8e8de;
+}
+
+body {
+    background-color: var(--bg-color);
+}

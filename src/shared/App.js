@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
-import routes from './routes'
-import { Route, Link, Redirect, Switch } from 'react-router-dom'
-import Navbar from './Navbar'
-import NoMatch from './NoMatch'
+import React, { Component } from 'react';
+import { Route, Link, Redirect, Switch } from 'react-router-dom';
+import routes from './routes';
+import Navbar from './navbar/Navbar'
+import NoMatch from './NoMatch';
+import "./App.css";
+// import styles from "./AppCSS.css"
+// import "./style.css";
 
 class App extends Component {
   render() {
@@ -18,7 +21,7 @@ class App extends Component {
           ))}
           <Route render={(props) => <NoMatch {...props} /> } />
         </Switch>
-      </div>
+      </div> 
     )
   }
 }

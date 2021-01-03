@@ -1,6 +1,7 @@
-var path = require('path')
-var webpack = require('webpack')
-var nodeExternals = require('webpack-node-externals')
+var path = require('path');
+var webpack = require('webpack');
+var nodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var browserConfig = {
   entry: './src/browser/index.js',
@@ -11,10 +12,27 @@ var browserConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader, // instead of style-loader
+          'css-loader'
+        ]
+      },
+      { 
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        resolve: { extensions: [".js", ".jsx"] },
+        use: {
+          loader: 'babel-loader' 
+        }
+      }
     ]
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: "style.css"
+    }),
     new webpack.DefinePlugin({
       __isBrowser__: "true"
     })
@@ -32,10 +50,28 @@ var serverConfig = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' }
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: "css-loader",
+          }
+        ]
+      },
+      { 
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        resolve: { extensions: [".js", ".jsx"] },
+        use: {
+          loader: 'babel-loader' 
+        }
+      }
     ]
   },
   plugins: [
+    // new MiniCssExtractPlugin({
+    //   filename: "style.css"
+    // }),
     new webpack.DefinePlugin({
       __isBrowser__: "false"
     })

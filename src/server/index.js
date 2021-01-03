@@ -4,13 +4,28 @@ import React from "react"
 import { renderToString } from "react-dom/server"
 import { StaticRouter, matchPath } from "react-router-dom"
 import serialize from "serialize-javascript"
-import App from '../shared/App'
 import routes from '../shared/routes'
+import App from '../shared/App'
 
 const app = express()
 
 app.use(cors())
 app.use(express.static("public"))
+
+app.get("/test", (req, res, next) => {
+  res.status(200).json({
+    "test1": '1',
+    "test2": '2',
+  });
+});
+
+app.get("/allowedRoutes", (req, res, next) => {
+  res.status(200).json({
+    "Pages": [{"name":"Page1","endpoint":"/page1"},{"name":"Page2","endpoint":"/page2"}],
+    "User": [{"name":"UserPage1","endpoint":"/userpage1"},{"name":"UserPage2","endpoint":"/userpage2"}],
+    "Account": [{"name":"Profile","endpoint":"/profile"},{"name":"Settings","endpoint":"/settings"}]
+  });
+});
 
 app.get("*", (req, res, next) => {
   const activeRoute = routes.find((route) => matchPath(req.url, route)) || {}
@@ -32,7 +47,8 @@ app.get("*", (req, res, next) => {
       <!DOCTYPE html>
       <html>
         <head>
-          <title>SSR with RR</title>
+          <title>Stan's React</title>
+          <link rel="stylesheet" href="style.css">
           <script src="/bundle.js" defer></script>
           <script>window.__INITIAL_DATA__ = ${serialize(data)}</script>
         </head>
@@ -41,9 +57,9 @@ app.get("*", (req, res, next) => {
           <div id="app">${markup}</div>
         </body>
       </html>
-    `)
+    `);
   }).catch(next)
-})
+});
 
 app.listen(3000, () => {
   console.log(`Server is listening on port: 3000`)
