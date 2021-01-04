@@ -1,37 +1,19 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom";
 import fetch from 'isomorphic-fetch'
 import "./navbar.css";
 
 class Navbar extends Component {
   constructor(props) {
     super(props)
-
+    let theme = props.userSettings.theme;
     this.state = {
-      theme: 'dark',
-      allowedRoutes: {},
-      test: 'banana'
+      allowedRoutes: props.allowedRoutes,
+      theme: theme,
     };
-
+    document.documentElement.setAttribute("data-theme", theme);
     this.activateLasers = this.activateLasers.bind(this);
     this.renderMenuPages = this.renderMenuPages.bind(this);
-
-  }
-
-  componentDidMount(){
-    let self = this;
-    this.activateLasers();
-
-    var allowedRoutesURI = "http://localhost:3000/allowedRoutes";
-    fetch(allowedRoutesURI)
-    .then(function(response){
-      return response.json();
-    })
-    .then(function(data){
-      self.setState({allowedRoutes: data})
-    })
-    .catch((error) => {
-      console.warn(error)
-    });
   }
 
   renderMenuPages(pages){
@@ -42,8 +24,8 @@ class Navbar extends Component {
             <div className="dropdown-content">
             {Object.entries(subpages).map(([i, page]) => {
               return (
-                <a key={page.name} href={page.endpoint}>{page.name}</a>
-              )
+                <Link key={i} to={page.endpoint}>{page.name}</Link>
+                )
             })}
             </div>
           </div>
@@ -54,7 +36,7 @@ class Navbar extends Component {
 
   activateLasers(){
     const theme = this.state.theme === 'light' ? 'dark' : 'light';
-    this.state.theme = theme;
+    this.setState({theme : theme})
     document.documentElement.setAttribute("data-theme", theme);
   }
 
@@ -63,17 +45,17 @@ class Navbar extends Component {
       <div id="nav-bar">
         <div id="nav-home" className="banana">
                 <div className="nav-item">
-                    <a href="/" rel="home" id="nav-home-link">Home</a>
+                    <Link to="/" rel="home" id="nav-home-link">Home</Link>
                     <div>Get. It. Done.</div>
                 </div>
         </div>
         <div id="nav-spacer"></div>
         {this.renderMenuPages(this.state.allowedRoutes)}
         <div className="nav-menu dropdown">
-            <button className="nav-item">TEST</button>
+            <button className="nav-item">Site</button>
             <div className="dropdown-content">
                 <div className="onoffswitch">
-                  <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="theme-switch" onClick={this.activateLasers}/>
+                  <input type="checkbox" name="onoffswitch" className="onoffswitch-checkbox" id="theme-switch" checked={this.state.theme === "dark" ? true : false} onChange={this.activateLasers}/>
                   <label className="onoffswitch-label" htmlFor="theme-switch">
                       <span className="onoffswitch-inner"></span>
                       <span className="onoffswitch-switch"></span>

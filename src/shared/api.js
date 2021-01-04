@@ -11,3 +11,11 @@ export function fetchPopularRepos (language = 'all') {
       return null
     });
 }
+
+export function getUserSettings(){
+  var userSettings = {
+    "theme":"dark",
+    "favoriteFruit":"raspberry"
+  };
+  return userSettings;
+}

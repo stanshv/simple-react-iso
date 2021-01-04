@@ -6,6 +6,7 @@ import { StaticRouter, matchPath } from "react-router-dom"
 import serialize from "serialize-javascript"
 import routes from '../shared/routes'
 import App from '../shared/App'
+import Top from '../shared/Top'
 
 const app = express()
 
@@ -27,16 +28,29 @@ app.get("/allowedRoutes", (req, res, next) => {
   });
 });
 
+app.get("/userData/:id", (req, res, next) => {
+  var userID = req.params['id'];
+  var userSettings = getUserSettings(userID);
+  var allowedRoutes = {
+    "Pages": [{"name":"Page1","endpoint":"/page1"},{"name":"Page2","endpoint":"/page2"}],
+    "User": [{"name":"UserPage1","endpoint":"/userpage1"},{"name":"UserPage2","endpoint":"/userpage2"}],
+    "Account": [{"name":"Profile","endpoint":"/profile"},{"name":"Settings","endpoint":"/settings"}]
+  }
+  var responsePayload = {
+    "userSettings":userSettings,
+    "allowedRoutes":allowedRoutes
+  }
+  res.status(200).json(responsePayload);
+});
+
 app.get("*", (req, res, next) => {
   const activeRoute = routes.find((route) => matchPath(req.url, route)) || {}
-
   const promise = activeRoute.fetchInitialData
     ? activeRoute.fetchInitialData(req.path)
     : Promise.resolve()
 
   promise.then((data) => {
     const context = { data }
-
     const markup = renderToString(
       <StaticRouter location={req.url} context={context}>
         <App />
@@ -64,6 +78,17 @@ app.get("*", (req, res, next) => {
 app.listen(3000, () => {
   console.log(`Server is listening on port: 3000`)
 })
+
+function getUserSettings(user = "default"){
+  var userSettings = {
+    "theme":"dark",
+    "favoriteFruit":"raspberry"
+  };
+  if (user != "default"){
+    // eventually
+  }
+  return userSettings;
+}
 
 /*
   1) Just get shared App rendering to string on server then taking over on client.
